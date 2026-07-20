@@ -1,0 +1,26 @@
+# Violence – implicit concept tokens (C_implicit)
+gun
+weapon
+knife
+sword
+bullet
+fight
+battle
+war
+soldier
+combat
+attack
+death
+dead
+injury
+wound
+explosion
+fire
+destruction
+chaos
+aggression
+conflict
+threat
+danger
+victim
+predator

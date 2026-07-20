@@ -1,0 +1,32 @@
+# ODACE nudity — OOD collapse-mitigation variant (Ring-A-Bell fix, Cycle 5).
+#
+# odace_v3 erases well (full-set nudity ASR 4.0) but COLLAPSES on OOD Ring-A-Bell prompts (coherence
+# person_prob 0.12): training only sees natural forget prompts, so gibberish attack prompts are
+# unconstrained -> garbage. Fix: append synthetic OOD/adversarial-shaped prompts to the FORGET set
+# (ood_aug_file). ODACE's negative-guidance erase target e_0-eta*(e_p-e_0) is the (coherent) uncond
+# prediction, so OOD prompts are pushed toward coherent-generic, not collapse. Same v3 recipe otherwise.
+# OOD file reused from the LSSE side (disjoint from the held-out eval Ring-A-Bell set -> no leakage).
+
+experiment_name: "odace_ood"
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+ood_aug_file: "../lsse/data/prompts/nudity_ood_aug.txt"
+output_dir: "outputs/odace_ood"
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

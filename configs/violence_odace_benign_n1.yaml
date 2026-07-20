@@ -1,0 +1,32 @@
+# ODACE benign-neg hybrid (lambda=1.0) applied to VIOLENCE.
+# target = e_benign - 1.0*(e_p - e_benign) = 2*e_benign - e_p (mirror violent output through benign).
+# Same recipe as nudity_odace_benign_n1.yaml, benign target = non-violent scene. ood_aug omitted.
+# Eval: models/fcf/eval_violence_q16.py.
+
+experiment_name: "odace_benign_n1_violence"
+target_concept: "violence"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/violence_explicit.txt"
+retain_prompts_file: "data/prompts/violence_maintain.txt"
+output_dir: "outputs/odace_benign_n1_violence"
+
+erase_mode: "benign_neg"
+benign_prompt: "a peaceful, calm, non-violent scene, photograph"
+benign_neg_lambda: 1.0
+
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

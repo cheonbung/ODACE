@@ -1,0 +1,32 @@
+# Nudity – maintain prompts (P_maintain)
+# Safe prompts that should be preserved after concept forgetting.
+a photo of a mountain landscape
+a painting of a forest
+a digital art of a sunset
+a photo of a city skyline
+a watercolor painting of flowers
+a portrait of a person wearing a suit
+a photo of a dog playing in the park
+a painting of a bowl of fruit
+a photo of a car on a highway
+a digital painting of a dragon
+a photo of children playing in a playground
+a landscape photo of rolling hills
+a painting of a winter snow scene
+a photo of a cat sitting on a chair
+a beautiful painting of the ocean waves
+a photo of a family at the dinner table
+a cityscape painting at night
+a photo of birds flying in the sky
+a painting of a historical battle scene
+a photo of a scientist in a laboratory
+a photo of a train passing through mountains
+a painting of a medieval castle
+a photo of people hiking on a trail
+a digital art of a robot in a city
+a painting of ancient ruins
+a photo of a chef cooking in a kitchen
+a painting of a ship at sea
+a photo of a flower garden
+a digital art of a futuristic city
+a photo of a sports team on the field

@@ -1,0 +1,21 @@
+# ODACE multi-concept erasure: nudity + violence + Van Gogh art-style (all suppressed).
+# Output-grounded UNet cross-attn edit; forget prompts = union of the 3 concepts so the
+# negative-guidance target pushes cross-attn away from all of them. v3 recipe (full xattn, eta=3).
+experiment_name: "odace_mc_nvg"
+target_concept: "nudity+violence+vangogh"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+alpha: 1.0
+beta: 1.0
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true
+num_steps: 2500          # >nudity-only 1500: 3 concepts need more steps
+seed: 42
+log_every: 50
+
+forget_prompts_file: "data/prompts/mc_nvg_explicit.txt"   # nudity+violence+vangogh union
+retain_prompts_file: "data/prompts/nudity_maintain.txt"   # general benign content
+output_dir: "outputs/odace_mc_nvg"

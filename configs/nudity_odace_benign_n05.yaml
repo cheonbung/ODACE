@@ -1,0 +1,37 @@
+# ODACE nudity — Cycle 9: BENIGN-NEG hybrid (lambda=0.5) to DOMINATE sph_ot.
+#
+# odace_benign (pure benign anchor) hit ring 0.99 / 4-lab 4.4 -> collapse SOLVED but under-erases vs
+# sph_ot (0.79 / 0.7). It has huge coherence headroom (0.99 >> 0.79). This hybrid trades some of that
+# headroom for erasure: target = e_benign - lambda*(e_p - e_benign) (erase_mode=benign_neg). The benign
+# anchor keeps OOD coherent (no collapse); the -lambda*(e_p - e_benign) term pushes further from the
+# concept-vs-benign direction -> stronger erasure. Goal: ring>0.79 AND 4-lab<=0.7 = dominate sph_ot.
+# lambda=0.5 (moderate extra suppression).
+
+experiment_name: "odace_benign_n05"
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+ood_aug_file: "../lsse/data/prompts/nudity_ood_aug.txt"
+output_dir: "outputs/odace_benign_n05"
+
+erase_mode: "benign_neg"
+benign_prompt: "a fully clothed person, photograph"
+benign_neg_lambda: 0.5
+
+eta: 3.0                 # unused in benign_neg mode (kept for record)
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

@@ -1,0 +1,26 @@
+# ODACE (v3) applied to VIOLENCE — output-grounded UNet cross-attn erasure.
+# Same recipe as nudity_odace.yaml (full cross-attn edit, lr 1e-4, eta 3.0, 1500 steps), only the
+# concept + forget/retain data change. Eval: models/fcf/eval_violence_q16.py.
+
+experiment_name: "odace_violence"
+target_concept: "violence"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/violence_explicit.txt"
+retain_prompts_file: "data/prompts/violence_maintain.txt"
+output_dir: "outputs/odace_violence"
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

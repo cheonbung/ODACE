@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Model weights / large binaries (never commit)
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.onnx
+
+# Generated media (never commit)
+*.png
+*.jpg
+*.jpeg
+*.npy
+*.npz
+
+# Run outputs / logs
+outputs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

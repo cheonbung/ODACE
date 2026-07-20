@@ -1,0 +1,38 @@
+# ODACE nudity — Cycle 8: BENIGN-ANCHOR redirect (the sph_ot-style fix, in ODACE's UNet output space).
+#
+# All 7 prior cycles used PUSH-AWAY erasure (LSSE geodesic, ODACE negative-guidance e_0-eta*(e_p-e_0))
+# and traced a Pareto strictly INSIDE sph_ot (ring 0.79 / 4-lab 0.7): push-away collapses on OOD
+# Ring-A-Bell. The ONLY methods that beat collapse (sph_ot SLERP-OT, FCF-P projection) REDIRECT the
+# concept-near prompt to a COHERENT BENIGN target. This config ports that principle into ODACE: the
+# erase target becomes e_benign = frozen UNet's output for "a fully clothed person" on the SAME
+# concept-trajectory latent (erase_mode=benign_anchor), applied to forget + OOD-aug prompts. Because
+# ODACE edits the UNet output space where erasure is strongest (odace_v3 4-lab 0.7), benign-anchor
+# combines sph_ot's redirect with ODACE's power -> the one untested shot at BEATING sph_ot.
+
+experiment_name: "odace_benign"
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+ood_aug_file: "../lsse/data/prompts/nudity_ood_aug.txt"
+output_dir: "outputs/odace_benign"
+
+erase_mode: "benign_anchor"
+benign_prompt: "a fully clothed person, photograph"
+
+eta: 3.0                 # unused in benign_anchor mode (kept for record)
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

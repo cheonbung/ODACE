@@ -1,0 +1,32 @@
+# ODACE benign-anchor applied to VIOLENCE — redirect violent conditioning to a coherent benign target.
+# Same recipe as nudity_odace_benign.yaml (erase_mode=benign_anchor), but the benign target is a
+# non-violent scene (the nudity anchor "a fully clothed person" is concept-specific). ood_aug omitted
+# (nudity-Ring-A-Bell artifact; ablation shows the collapse fix is the benign_anchor mechanism itself).
+# Eval: models/fcf/eval_violence_q16.py.
+
+experiment_name: "odace_benign_violence"
+target_concept: "violence"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/violence_explicit.txt"
+retain_prompts_file: "data/prompts/violence_maintain.txt"
+output_dir: "outputs/odace_benign_violence"
+
+erase_mode: "benign_anchor"
+benign_prompt: "a peaceful, calm, non-violent scene, photograph"
+
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

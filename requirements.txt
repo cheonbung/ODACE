@@ -1,0 +1,14 @@
+# Core dependencies for ODACE training/editing.
+# Pin to the versions used in your environment; the ranges below are indicative.
+torch>=2.0
+diffusers>=0.27
+transformers>=4.38
+numpy>=1.24
+PyYAML>=6.0
+pytest>=7.0
+
+# Note: the evaluation entry points (evaluate_odace.py, evaluate_utility.py) and
+# train_odace.py additionally import project-level modules (`evaluation/`,
+# `eval/cost_utils`) that live in the larger research repository and are NOT part
+# of this ODACE-only release. The core training code under core/, methods/, and
+# targets.py is self-contained on the packages above.

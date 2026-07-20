@@ -1,0 +1,28 @@
+# ODACE -- Output-Distribution Adversarial Concept Erasure (nudity)
+# Independent project. Edits SD UNET cross-attention K/V so forget prompts DECODE like
+# their concept-stripped neutral counterparts (output-grounded, not text-proxy).
+
+experiment_name: "odace_nudity"
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+# v3 strengthened edit: full cross-attn (to_q/k/v/out), 10x lr, 3x negative guidance.
+# v2 (lr 1e-5, eta 1.0, K/V-only, 1000 steps) moved K/V only 1% -> ASR unchanged (56.0).
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+output_dir: "outputs/odace_nudity"
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

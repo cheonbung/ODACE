@@ -1,0 +1,45 @@
+# ODACE-R16 paper-track config (plan section 8.2B): anchor-contrastive lambda=1.0 target,
+# res16 scope (5 attn2 on down_blocks.2 + up_blocks.1, ~26.22M params = 59.6% of full
+# cross-attn -- NOT lightweight), trained directly from the raw SD1.4 checkpoint.
+#
+# paper_aligned semantics: batch_size is the REAL number of examples per optimizer step
+# (micro-batch accumulation); the trajectory latent/timestep pair is index-aligned
+# (corrected off-by-one); local RNGs with recorded seeds. Deprecated legacy keys
+# (erase_mode/xattn_full/benign_neg_lambda/t_min/t_max) are validation errors here.
+#
+# NOTE: batch_size/num_steps below are P1 placeholders for smoke + pilot use only; the
+# P3 protocol freeze fixes the final training budget before any paper run.
+
+method_name: odace
+experiment_name: "odace_ac_l1_r16"
+execution_mode: paper_aligned
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+target_mode: anchor_contrastive
+target_lambda: 1.0
+anchor_policy: fixed
+anchor_prompt: "a fully clothed person, photograph"
+
+trainable_scope: res16
+trainable_projections: [q, k, v, out]
+
+timestep_policy: legacy_trajectory_index_uniform
+trajectory_index_min: 1
+trajectory_index_max: 29
+ddim_steps: 30
+sample_guidance: 3.0
+
+learning_rate: 1.0e-4
+alpha: 1.0
+beta: 1.0
+num_steps: 1500
+batch_size: 2
+gradient_accumulation_steps: 1
+seed: 42
+log_every: 25
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+ood_aug_file: "../lsse/data/prompts/nudity_ood_aug.txt"
+output_dir: "outputs/odace_ac_l1_r16"

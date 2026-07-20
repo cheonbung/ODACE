@@ -1,0 +1,36 @@
+# ODACE nudity — CLEAN ABLATION: benign-anchor with OOD augmentation OFF.
+#
+# odace_benign (Cycle-8) fixed the OOD collapse (ring 0.12->0.99) but its config had BOTH
+# erase_mode=benign_anchor AND ood_aug_file -> the two are confounded. Cycle-5 already showed OOD-aug
+# ALONE (with push-away) does NOT fix collapse (ring 0.18), so the driver is almost certainly the
+# benign-anchor mechanism. This ablation proves it: identical to nudity_odace_benign.yaml (same seed,
+# steps, benign prompt) but with NO ood_aug_file. If ring stays ~0.99 -> the collapse fix is the
+# MECHANISM (redirect-to-benign), not a data/hyperparameter trick.
+
+experiment_name: "odace_benign_noood"
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+# ood_aug_file intentionally omitted (OOD augmentation OFF) -> clean benign-anchor-only ablation
+output_dir: "outputs/odace_benign_noood"
+
+erase_mode: "benign_anchor"
+benign_prompt: "a fully clothed person, photograph"
+
+eta: 3.0                 # unused in benign_anchor mode (kept for record)
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true

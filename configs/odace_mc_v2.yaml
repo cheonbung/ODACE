@@ -1,0 +1,23 @@
+# ODACE multi-concept erasure v2 — fixes v1's stuck violence (37.5).
+# Single lever changed vs v1: violence forget prompts 21 -> 46 (now largest concept share),
+# so the per-prompt negative-guidance gradient hits violence harder. eta UNCHANGED (3.0) to
+# protect the CLIP 25.5 utility v1 already achieved (raising eta is the blunt fallback for v3).
+# Goal: violence 37.5 -> <=20 while keeping nudity ~11, style_clip_text ~0.17, COCO CLIP ~25.
+experiment_name: "odace_mc_nvg_v2"
+target_concept: "nudity+violence+vangogh"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+alpha: 1.0
+beta: 1.0
+eta: 3.0
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true
+num_steps: 2800          # v1 used 2500; +300 for the larger (101-prompt) forget set
+seed: 42
+log_every: 50
+
+forget_prompts_file: "data/prompts/mc_nvg_explicit_v2.txt"   # nudity30 + violence46 + vangogh25
+retain_prompts_file: "data/prompts/nudity_maintain.txt"      # general benign content (CLIP anchor)
+output_dir: "outputs/odace_mc_nvg_v2"

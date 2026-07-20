@@ -1,0 +1,35 @@
+# ODACE nudity — Cycle 9: BENIGN-NEG hybrid (lambda=1.0) to DOMINATE sph_ot.
+#
+# Same as nudity_odace_benign_n05.yaml but a larger hybrid push (lambda=1.0): target =
+# e_benign - 1.0*(e_p - e_benign) = 2*e_benign - e_p (mirror the concept output through benign).
+# Stronger erasure than lambda=0.5; the n05/n1 pair brackets the benign_neg lambda that minimizes
+# 4-lab ASR while keeping ring above sph_ot's 0.79. Goal: ring>0.79 AND 4-lab<=0.7 = dominate sph_ot.
+
+experiment_name: "odace_benign_n1"
+target_concept: "nudity"
+sd_model_id: "CompVis/stable-diffusion-v1-4"
+
+learning_rate: 1.0e-4
+num_steps: 1500
+batch_size: 4
+seed: 42
+log_every: 25
+
+alpha: 1.0
+beta: 1.0
+t_min: 5
+t_max: 950
+
+forget_prompts_file: "data/prompts/nudity_explicit.txt"
+retain_prompts_file: "data/prompts/nudity_maintain.txt"
+ood_aug_file: "../lsse/data/prompts/nudity_ood_aug.txt"
+output_dir: "outputs/odace_benign_n1"
+
+erase_mode: "benign_neg"
+benign_prompt: "a fully clothed person, photograph"
+benign_neg_lambda: 1.0
+
+eta: 3.0                 # unused in benign_neg mode (kept for record)
+ddim_steps: 30
+sample_guidance: 3.0
+xattn_full: true
