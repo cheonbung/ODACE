@@ -5,7 +5,7 @@
 
 If losses are flat AND weight delta ~0  -> training bug (no learning).
 If weights moved a lot but ASR ~ raw    -> edit doesn't transfer to generation.
-Run (WSL):  ~/miniconda3/envs/lsse/bin/python experiments/diag_checkpoint.py
+Run:  python experiments/diag_checkpoint.py
 """
 from __future__ import annotations
 import json

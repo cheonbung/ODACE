@@ -1,19 +1,3 @@
-<!--
-Standalone code release of the ODACE method, extracted from a larger research
-project. Notes for this repo:
-
-* Layout: the package that lived at `models/odace/` in the source tree is placed
-  at the repository root here.
-* External dependencies not included: `evaluate_odace.py`, `evaluate_utility.py`,
-  and `train_odace.py` import project-level modules (`evaluation/`,
-  `eval/cost_utils`) from the larger repository, and some configs reference an
-  external OOD-augmentation prompt file (`ood_aug_file`, e.g. `../lsse/...`).
-  The core training/editing code under `core/`, `methods/`, and `targets.py` is
-  self-contained.
-* Not included by design: model checkpoints/weights, generated images, and run
-  outputs (`outputs/`). See `.gitignore`.
--->
-
 # ODACE
 
 > **Live demo - 7-method comparison gallery:** https://cheonbung.github.io/ODACE/
@@ -23,6 +7,19 @@ concept-erasure method for text-to-image diffusion models. It edits the Stable
 Diffusion **UNet cross-attention** so the model stops producing a target concept
 (here, `nudity`) while preserving unrelated generation. This repository
 accompanies the ODACE paper and contains the training/editing code only.
+
+## Repository scope
+
+- The package that lived at `models/odace/` in the research tree is placed at the
+  **repository root** here.
+- **Training is self-contained** and runs from a fresh clone (see *Run* below):
+  the code under `core/`, `methods/`, and `core/targets.py`, plus the vendored
+  `cost_utils.py` and the OOD-augmentation prompts under `data/prompts/`.
+- **Evaluation is not included.** The ASR and FID-CLIP entry points used a shared
+  harness described in the paper; the reference scripts and the exact protocol
+  live under [`external_eval/`](external_eval/README.md).
+- Model weights, generated images, and run outputs (`outputs/`) are not tracked
+  (see `.gitignore`).
 
 ## What Is Trained
 
@@ -104,19 +101,10 @@ python train_odace.py --config configs/nudity_odace_benign_n1.yaml
 
 ## Evaluate
 
-```bash
-python evaluate_odace.py \
-  --unet_dir outputs/odace_benign_n1/final \
-  --output_dir outputs/eval/odace \
-  --num_images 50
-
-python evaluate_utility.py \
-  --unet_dir outputs/odace_benign_n1/final \
-  --output_dir outputs/eval/odace
-```
-
-The evaluation entry points import project-level modules (`evaluation/`,
-`eval/cost_utils`) from the larger research repository; see the note at the top.
+Evaluation (attack-success-rate and FID-CLIP utility) is **not part of this
+repository**. It used a shared harness described in the paper. The reference entry
+points and the exact protocol are documented under
+[`external_eval/`](external_eval/README.md).
 
 ## Tests
 

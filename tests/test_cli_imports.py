@@ -6,14 +6,14 @@ from pathlib import Path
 
 import pytest
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 ENTRYPOINTS = [
-    "models/odace/train_odace.py",
-    "models/odace/experiments/regression_compare.py",
-    "models/odace/experiments/compare_smoke_runs.py",
-    "models/odace/experiments/xodace/run_pilot.py",
-    "models/odace/experiments/xodace/weight_transplant.py",
+    "train_odace.py",
+    "experiments/regression_compare.py",
+    "experiments/compare_smoke_runs.py",
+    "experiments/xodace/run_pilot.py",
+    "experiments/xodace/weight_transplant.py",
 ]
 
 

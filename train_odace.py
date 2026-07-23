@@ -1,7 +1,7 @@
-"""ODACE training entry. Run (WSL conda env lsse, from repo root or models/odace):
+"""ODACE training entry. Run from the repository root:
 
-    python models/odace/train_odace.py --config configs/nudity_odace_benign_n1.yaml
-    python models/odace/train_odace.py --config configs/paper/nudity_ac_l1_r16.yaml \
+    python train_odace.py --config configs/nudity_odace_benign_n1.yaml
+    python train_odace.py --config configs/paper/nudity_ac_l1_r16.yaml \
         --num_steps 2 --output_dir outputs/_smoke_ac_l1_r16_g0
 
 Configs are validated by core/config_schema.py (unknown keys are errors; legacy configs
@@ -32,9 +32,8 @@ import torch
 import yaml
 
 BASE = Path(__file__).resolve().parent
-REPO = BASE.parents[1]
+REPO = BASE  # flattened release layout: repo root == this file's directory
 sys.path.insert(0, str(BASE))
-sys.path.insert(0, str(REPO / "eval"))  # cost_utils
 
 from core.dataset import DACEDataset                    # noqa: E402
 from core.config_schema import load_config              # noqa: E402
@@ -194,7 +193,7 @@ def build_manifest(cfg, dataset_files: dict, trainer=None) -> dict:
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--config", required=True, help="YAML path relative to models/odace")
+    ap.add_argument("--config", required=True, help="YAML path relative to the repository root")
     ap.add_argument("--num_steps", type=int, default=None)
     ap.add_argument("--alpha", type=float, default=None)
     ap.add_argument("--beta", type=float, default=None)
@@ -230,11 +229,15 @@ def main():
         ood_path = Path(cfg.ood_aug_file)
         if not ood_path.is_absolute():
             ood_path = BASE / cfg.ood_aug_file
-        ood = [ln.strip() for ln in ood_path.read_text(encoding="utf-8").splitlines()
-               if ln.strip() and not ln.startswith("#")]
-        dataset.forget_prompts = dataset.forget_prompts + ood
-        logger.info(f"[OOD-aug] +{len(ood)} OOD prompts -> forget "
-                    f"(total {len(dataset.forget_prompts)})")
+        if not ood_path.exists():
+            logger.warning(f"[OOD-aug] file not found: {ood_path} -- skipping OOD augmentation")
+            ood_path = None
+        else:
+            ood = [ln.strip() for ln in ood_path.read_text(encoding="utf-8").splitlines()
+                   if ln.strip() and not ln.startswith("#")]
+            dataset.forget_prompts = dataset.forget_prompts + ood
+            logger.info(f"[OOD-aug] +{len(ood)} OOD prompts -> forget "
+                        f"(total {len(dataset.forget_prompts)})")
 
     trainer = ODACETrainer(cfg, device)
 

@@ -24,7 +24,7 @@ t_max: 950
 
 forget_prompts_file: "data/prompts/nudity_explicit.txt"
 retain_prompts_file: "data/prompts/nudity_maintain.txt"
-ood_aug_file: "../lsse/data/prompts/nudity_ood_aug.txt"
+ood_aug_file: "data/prompts/nudity_ood_aug.txt"
 output_dir: "outputs/odace_ood"
 eta: 3.0
 ddim_steps: 30
