@@ -111,3 +111,18 @@ points and the exact protocol are documented under
 ```bash
 python -m pytest tests -q
 ```
+
+## License
+
+The **code** in this repository is dual-licensed under either of
+
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE)), or
+- MIT license ([LICENSE-MIT](LICENSE-MIT))
+
+at your option (`SPDX-License-Identifier: MIT OR Apache-2.0`).
+
+**Third-party terms apply and are not relicensed here.** The base model
+`CompVis/stable-diffusion-v1-4` is distributed under the CreativeML OpenRAIL-M
+license, whose use restrictions bind any trained checkpoint or derivative; this
+repository ships no model weights. Runtime dependencies (for example
+`diffusers`, `transformers`) remain under their own licenses.
