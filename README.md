@@ -16,6 +16,8 @@ project. Notes for this repo:
 
 # ODACE
 
+> **Live demo - 7-method comparison gallery:** https://cheonbung.github.io/ODACE/
+
 **ODACE** (Output-grounded Denoising-Anchored Contrastive Erasure) is a post-hoc
 concept-erasure method for text-to-image diffusion models. It edits the Stable
 Diffusion **UNet cross-attention** so the model stops producing a target concept
